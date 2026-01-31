@@ -1470,6 +1470,40 @@ function returnToPortal() {
 // Language switching system
 let currentLang = 'zh-TW';
 
+// Translation dictionary for key UI elements
+const translations = {
+    'zh-TW': {
+        'continue': '繼 續',
+        'back': '返 回',
+        'amen': '阿 們',
+        'learnMore': '我想知道更多',
+        'thinkMore': '讓我再想想',
+        'accept': '我想接受',
+        'returnPortal': '返回主頁',
+        'restartExplore': '重新探索'
+    },
+    'zh-CN': {
+        'continue': '继 续',
+        'back': '返 回',
+        'amen': '阿 们',
+        'learnMore': '我想知道更多',
+        'thinkMore': '让我再想想',
+        'accept': '我想接受',
+        'returnPortal': '返回主页',
+        'restartExplore': '重新探索'
+    },
+    'en': {
+        'continue': 'Continue',
+        'back': 'Back',
+        'amen': 'Amen',
+        'learnMore': 'I want to learn more',
+        'thinkMore': 'Let me think',
+        'accept': 'I want to accept',
+        'returnPortal': 'Return to Portal',
+        'restartExplore': 'Restart Exploration'
+    }
+};
+
 function switchLanguage(lang) {
     currentLang = lang;
     
@@ -1489,6 +1523,14 @@ function switchLanguage(lang) {
     // Show selected lang elements
     document.querySelectorAll(`[data-lang="${lang}"]`).forEach(el => {
         el.classList.add('active');
+    });
+    
+    // Update button text using data-i18n attributes
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+            el.textContent = translations[lang][key];
+        }
     });
     
     // Store preference
