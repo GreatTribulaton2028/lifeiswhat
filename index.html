@@ -1971,9 +1971,6 @@ function toggleCounter() {
     if (counter.classList.contains('collapsed')) {
         toggle.textContent = '▼';
         toggle.setAttribute('aria-label', '展開死亡計數器');
-    } else {
-        toggle.textContent = '▲';
-        toggle.setAttribute('aria-label', '收合死亡計數器');
         toggle.setAttribute('aria-expanded', 'false');
     } else {
         toggle.textContent = '▲';
@@ -1991,8 +1988,8 @@ function returnToPortal() {
 // Language switching system
 let currentLang = 'zh-TW';
 
-// Translation dictionary for key UI elements
-const translations = {
+// Translation dictionary for key UI elements (button text)
+const buttonTranslations = {
     'zh-TW': {
         'continue': '繼 續',
         'back': '返 回',
@@ -2049,8 +2046,8 @@ function switchLanguage(lang) {
     // Update button text using data-i18n attributes
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (translations[lang] && translations[lang][key]) {
-            el.textContent = translations[lang][key];
+        if (buttonTranslations[lang] && buttonTranslations[lang][key]) {
+            el.textContent = buttonTranslations[lang][key];
         }
     });
     
