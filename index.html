@@ -258,6 +258,16 @@
 
     <script src="js/progression.js"></script>
     <script>
+        // First-time visitor redirect check (before any content loads)
+        (function() {
+            const hasVisitedLanding = localStorage.getItem('hasVisitedLanding');
+            if (!hasVisitedLanding) {
+                // First time visitor - redirect to landing page immediately
+                window.location.href = 'landing.html';
+                return;
+            }
+        })();
+
         // Button handlers
         const btnSleep = document.getElementById('btnSleep');
         const btnAwaken = document.getElementById('btnAwaken');

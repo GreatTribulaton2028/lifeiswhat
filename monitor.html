@@ -1814,7 +1814,7 @@ function renderList(events) {
             categoryColor = '#666';
         }
         
-        const categoryBadge = `<span class="category-badge" style="background:${categoryColor};">${categoryName}</span>`;
+        const categoryBadge = `<span class="category-badge" style="background:${categoryColor};">${categoryName} ⬆️</span>`;
         const eventId = `${e.date}-${e.title.slice(0, 20)}`;
         const isLit = candleCounts[eventId] > 0;
 
