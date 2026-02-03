@@ -357,11 +357,10 @@
         const mainContainer = document.getElementById('main-container');
 
         deathCard.addEventListener('click', function() {
-            alert('繼續沉睡...');
-            window.close();
-            if (!window.closed) {
-                window.location.href = 'about:blank';
-            }
+            mainContainer.classList.add('fade-out');
+            setTimeout(() => {
+                window.close();
+            }, 1500);
         });
 
         lifeCard.addEventListener('click', function() {
