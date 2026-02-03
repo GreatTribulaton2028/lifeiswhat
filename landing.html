@@ -170,6 +170,20 @@
             z-index: 1;
         }
 
+        /* Pulsing heart animation for Life button */
+        .choice-card.life .choice-icon {
+            animation: heartPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.15);
+            }
+        }
+
         .choice-title {
             font-family: var(--f-head);
             font-size: clamp(1.5rem, 4vw, 2rem);
@@ -266,7 +280,7 @@
         <div class="choice-section">
             <!-- Death Card -->
             <div class="choice-card death" id="deathCard">
-                <div class="choice-icon">💀</div>
+                <div class="choice-icon">💀 —</div>
                 <div class="choice-title">死亡</div>
                 <div class="choice-desc">
                     繼續沉睡<br>
@@ -276,7 +290,7 @@
 
             <!-- Life Card -->
             <div class="choice-card life" id="lifeCard">
-                <div class="choice-icon">✨</div>
+                <div class="choice-icon">❤️ ✨</div>
                 <div class="choice-title">生命</div>
                 <div class="choice-desc">
                     覺醒真相<br>
@@ -364,6 +378,9 @@
         });
 
         lifeCard.addEventListener('click', function() {
+            // Set the flag to indicate user has visited landing page
+            localStorage.setItem('hasVisitedLanding', 'true');
+            
             mainContainer.classList.add('fade-out');
             setTimeout(() => {
                 window.location.href = 'monitor.html';

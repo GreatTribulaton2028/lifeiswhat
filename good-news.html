@@ -243,6 +243,59 @@
             letter-spacing: 5px;
         }
 
+        /* Progress bar styles */
+        .progress-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 25px auto 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--c-border);
+            border-radius: 12px;
+            overflow: hidden;
+            height: 40px;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--c-accent), var(--c-soul), var(--c-crit));
+            background-size: 200% 100%;
+            animation: progressGradient 2s linear infinite;
+            transition: width 1s linear;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+            position: relative;
+        }
+
+        @keyframes progressGradient {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--f-mono);
+            font-size: 0.9rem;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            font-weight: 700;
+            letter-spacing: 1px;
+            z-index: 10;
+        }
+
+        .download-message {
+            font-family: var(--f-text);
+            font-size: 1.1rem;
+            color: var(--c-accent);
+            margin-top: 15px;
+            letter-spacing: 2px;
+            animation: pulse 2s infinite;
+        }
+
         /* Action buttons - hidden by default */
         .action-buttons {
             display: none;
@@ -404,6 +457,17 @@
             <div class="timer-section">
                 <div class="timer-label">請用心觀看</div>
                 <div class="timer-display" id="timerDisplay">04:00</div>
+                
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                    <div class="progress-text" id="progressText">0%</div>
+                </div>
+                
+                <!-- Download Message -->
+                <div class="download-message" id="downloadMessage">
+                    正在下載生存資訊... / 正在解鎖核心真相...
+                </div>
             </div>
         </div>
 
@@ -426,9 +490,14 @@
         const videoSection = document.getElementById('videoSection');
         const timerDisplay = document.getElementById('timerDisplay');
         const actionButtons = document.getElementById('actionButtons');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const downloadMessage = document.getElementById('downloadMessage');
 
         let timerInterval = null;
         let timeRemaining = 240; // 4 minutes in seconds
+        const totalTime = 240;
+        const progressMultiplier = 100 / totalTime; // Pre-calculate for performance
 
         // Amen button click handler
         amenBtn.addEventListener('click', function() {
@@ -450,6 +519,22 @@
             timerInterval = setInterval(function() {
                 timeRemaining--;
 
+                // Calculate progress percentage using pre-calculated multiplier
+                const progress = (totalTime - timeRemaining) * progressMultiplier;
+                progressBar.style.width = progress + '%';
+                progressText.textContent = Math.floor(progress) + '%';
+
+                // Update download message based on progress
+                if (progress < 25) {
+                    downloadMessage.textContent = '正在下載生存資訊...';
+                } else if (progress < 50) {
+                    downloadMessage.textContent = '正在解鎖核心真相...';
+                } else if (progress < 75) {
+                    downloadMessage.textContent = '正在載入永恆視角...';
+                } else if (progress < 100) {
+                    downloadMessage.textContent = '即將完成準備...';
+                }
+
                 // Update timer display
                 const minutes = Math.floor(timeRemaining / 60);
                 const seconds = timeRemaining % 60;
@@ -458,6 +543,12 @@
                 // When timer reaches 0
                 if (timeRemaining <= 0) {
                     clearInterval(timerInterval);
+                    
+                    // Final progress update
+                    progressBar.style.width = '100%';
+                    progressText.textContent = '100%';
+                    downloadMessage.textContent = '✓ 準備完成！';
+                    downloadMessage.style.color = 'var(--c-accent)';
                     
                     // Show action buttons
                     actionButtons.classList.add('visible');
